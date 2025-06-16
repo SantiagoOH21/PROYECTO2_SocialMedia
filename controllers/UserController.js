@@ -7,6 +7,13 @@ const UserController = {
   //REGISTER
   async register(req, res) {
     try {
+      const existingUser = await User.findOne({
+        email: req.body.email,
+      });
+      if (existingUser) {
+        return res.status(409).send({ message: "El email ya está registrado" });
+      }
+
       if (req.body.password.length < 6 || req.body.password.length > 16) {
         return res.status(400).send({
           message: "La contraseña debe tener entre 6 y 16 caracteres",
