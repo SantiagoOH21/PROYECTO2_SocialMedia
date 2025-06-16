@@ -44,6 +44,7 @@ const UserController = {
       const user = await User.findOne({
         email: req.body.email,
       });
+
       const isMatch = bcrypt.compareSync(req.body.password, user.password);
 
       if (!user || !isMatch) {
@@ -62,6 +63,21 @@ const UserController = {
       res.status(500).send({
         message: "Error al iniciar sesión",
         error,
+      });
+    }
+  },
+
+  //LOGOUT
+  async logout(req, res) {
+    try {
+      await User.findByIdAndUpdate(req.user._id, {
+        $pull: { tokens: req.headers.authorization },
+      });
+      res.send({ message: "Desconectado con éxito" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: "Hubo un problema al intentar desconectar al usuario",
       });
     }
   },
