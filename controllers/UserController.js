@@ -1,13 +1,27 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const { jwt_secret } = require("../config/keys.js");
+const bcrypt = require("bcryptjs");
 
 const UserController = {
   //REGISTER
   async register(req, res) {
     try {
-      const user = await User.create(req.body);
-      res.status(201).send({ message: "Usuario registrado con exito", user });
+      if (req.body.password.length < 6 || req.body.password.length > 16) {
+        return res.status(400).send({
+          message: "La contraseña debe tener entre 6 y 16 caracteres",
+        });
+      }
+
+      const passwordEncrypted = bcrypt.hashSync(req.body.password, 10);
+
+      const newUser = await User.create({
+        ...req.body,
+        password: passwordEncrypted,
+      });
+      res
+        .status(201)
+        .send({ message: "Usuario registrado con exito", newUser });
     } catch (error) {
       console.error(error);
       res.status(500).send({
@@ -23,6 +37,14 @@ const UserController = {
       const user = await User.findOne({
         email: req.body.email,
       });
+      const isMatch = bcrypt.compareSync(req.body.password, user.password);
+
+      if (!user || !isMatch) {
+        return res
+          .status(400)
+          .send({ message: "Usuario o contraseña incorrectos" });
+      }
+
       const token = jwt.sign({ _id: user._id }, jwt_secret);
       if (user.tokens.length > 3) user.tokens.shift();
       user.tokens.push(token);
@@ -31,7 +53,7 @@ const UserController = {
     } catch (error) {
       console.error(error);
       res.status(500).send({
-        message: "Ha habido un problema al acceder",
+        message: "Error al iniciar sesión",
         error,
       });
     }
