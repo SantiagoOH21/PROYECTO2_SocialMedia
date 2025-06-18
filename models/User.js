@@ -23,10 +23,12 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: [true, "Por favor rellena tu contraseña"],
     },
+
     age: {
       type: Number,
       required: [true, "Por favor rellena tu edad"],
     },
+    role: String,
     tokens: [],
   },
   { timestamps: true }

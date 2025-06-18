@@ -5,7 +5,7 @@ const bcrypt = require("bcryptjs");
 
 const UserController = {
   //REGISTER
-  async register(req, res) {
+  async register(req, res, next) {
     try {
       const existingUser = await User.findOne({
         email: req.body.email,
@@ -14,27 +14,31 @@ const UserController = {
         return res.status(409).send({ message: "El email ya está registrado" });
       }
 
-      if (req.body.password.length < 6 || req.body.password.length > 16) {
+      if (
+        !req.body.password ||
+        req.body.password.length < 6 ||
+        req.body.password.length > 16
+      ) {
         return res.status(400).send({
           message: "La contraseña debe tener entre 6 y 16 caracteres",
         });
       }
 
-      const passwordEncrypted = bcrypt.hashSync(req.body.password, 10);
+      const passwordEncrypted = req.body.password
+        ? bcrypt.hashSync(req.body.password, 10)
+        : undefined;
 
       const newUser = await User.create({
         ...req.body,
+        role: "user",
         password: passwordEncrypted,
       });
       res
         .status(201)
         .send({ message: "Usuario registrado con exito", newUser });
     } catch (error) {
-      console.error(error);
-      res.status(500).send({
-        message: "Ha habido un problema al registrar el usuario",
-        error,
-      });
+      error.origin = "usuario";
+      next(error);
     }
   },
 
