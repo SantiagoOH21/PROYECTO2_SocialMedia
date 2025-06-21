@@ -1,13 +1,10 @@
 const handleValidationError = (err, res) => {
   let errors = Object.values(err.errors).map((el) => el.message);
-  //   if (errors.length > 1) {
   let chain = errors[0];
   for (let i = 1; i < errors.length; i++) {
     chain += " || " + errors[i];
   }
-  // const string = chain.slice(0, -4);
   res.status(400).send({ messages: chain });
-  //   }
 };
 const typeError = (err, req, res, next) => {
   if (err.name === "ValidationError") {
