@@ -1,11 +1,12 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
-const { jwt_secret } = require("../config/keys.js");
+require("dotenv").config();
+// const { jwt_secret } = require("../config/keys.js");
 
 const authentication = async (req, res, next) => {
   try {
     const token = req.headers.authorization;
-    const payload = jwt.verify(token, jwt_secret);
+    const payload = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findOne({ _id: payload._id, tokens: token });
     if (!user) {
       return res.status(401).send({ message: "No estás autorizado" });

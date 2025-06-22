@@ -13,7 +13,7 @@ const typeError = (err, req, res, next) => {
     res.status(400).send("El correo tiene que ser único");
   } else {
     console.error(err);
-    res.status(500).send(`Hubo un problema`);
+    res.status(500).send("Hubo un problema", err);
   }
 };
 module.exports = { typeError };

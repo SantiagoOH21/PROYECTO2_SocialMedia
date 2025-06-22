@@ -1,6 +1,6 @@
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
-const { jwt_secret } = require("../config/keys.js");
+require("dotenv").config();
 const bcrypt = require("bcryptjs");
 
 const UserController = {
@@ -45,10 +45,7 @@ const UserController = {
   //LOGIN
   async login(req, res) {
     try {
-      const user = await User.findOne({
-        email: req.body.email,
-      });
-
+      const user = await User.findOne({ email: req.body.email });
       const isMatch = bcrypt.compareSync(req.body.password, user.password);
 
       if (!user || !isMatch) {
@@ -57,7 +54,7 @@ const UserController = {
           .send({ message: "Usuario o contraseña incorrectos" });
       }
 
-      const token = jwt.sign({ _id: user._id }, jwt_secret);
+      const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
       if (user.tokens.length > 3) user.tokens.shift();
       user.tokens.push(token);
       await user.save();
@@ -77,7 +74,7 @@ const UserController = {
       await User.findByIdAndUpdate(req.user._id, {
         $pull: { tokens: req.headers.authorization },
       });
-      res.send({ message: "Desconectado con éxito" });
+      res.status(200).send({ message: "Desconectado con éxito" });
     } catch (error) {
       console.error(error);
       res.status(500).send({
