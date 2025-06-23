@@ -40,6 +40,11 @@ const PostController = {
         "userId",
         "name"
       );
+      if (!post)
+        return res
+          .status(404)
+          .send({ message: "Post no encontrado con esa id" });
+
       res.status(200).send(post);
     } catch (error) {
       console.error(error);
@@ -89,6 +94,12 @@ const PostController = {
       const post = await Post.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
       });
+
+      if (!post)
+        return res
+          .status(404)
+          .send({ message: "Post no encontrado con esa id" });
+
       res.send({ message: "Post actualizado correctamente", post });
     } catch (error) {
       console.error(error);
