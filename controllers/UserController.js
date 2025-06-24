@@ -82,5 +82,57 @@ const UserController = {
       });
     }
   },
+
+  //GET ALL USERS
+  async getAll(req, res) {
+    try {
+      const users = await User.find();
+      res.status(200).send(users);
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: "Ha habido un problema al traer los usuarios",
+        error,
+      });
+    }
+  },
+
+  //UPDATE
+
+  async update(req, res) {
+    try {
+      const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+      });
+      if (!user)
+        return res.status(404).send({ message: "Usuario no encontrado" });
+      res
+        .status(200)
+        .send({ message: "Usuario actualizado correctamente", user });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: "Ha habido un problema al intentar actualizar el usuario",
+        error,
+      });
+    }
+  },
+
+  //DELETE
+  async delete(req, res) {
+    try {
+      const user = await User.findByIdAndDelete(req.params.id);
+      if (!user)
+        return res.status(404).send({ message: "Usuario no encontrado" });
+
+      res.status(200).send({ message: "Usuario borrado con éxito", user });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: "Ha habido un problema al intentar borrar el usuario",
+        error,
+      });
+    }
+  },
 };
 module.exports = UserController;

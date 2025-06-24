@@ -15,15 +15,20 @@ const PostSchema = new mongoose.Schema(
     userId: {
       type: ObjectId,
       ref: "User",
+      required: true,
     },
-    likes: {
-      type: ObjectId,
-      ref: "User",
-    },
-    comments: {
-      type: ObjectId,
-      ref: "Comment",
-    },
+    likes: [
+      {
+        type: ObjectId,
+        ref: "User",
+      },
+    ],
+    comments: [
+      {
+        type: ObjectId,
+        ref: "Comment",
+      },
+    ],
   },
   { timestamps: true }
 );

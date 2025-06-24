@@ -17,17 +17,19 @@ const CommentSchema = new mongoose.Schema(
       type: String,
       required: [true, "Por favor escribe algo en el contenido del comentario"],
     },
-    likes: {
-      type: ObjectId,
-      ref: "User",
-    },
+    likes: [
+      {
+        type: ObjectId,
+        ref: "User",
+      },
+    ],
   },
   { timestamps: true }
 );
 
-PostSchema.index({
+CommentSchema.index({
   content: "text",
 });
 
-const Comment = mongoose.model("Post", CommentSchema);
+const Comment = mongoose.model("Comment", CommentSchema);
 module.exports = Comment;
