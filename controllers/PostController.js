@@ -10,7 +10,13 @@ const PostController = {
         ...req.body,
         visibility: "public",
         userId: req.user._id,
+        image: req.file ? req.file.path : null,
       });
+
+      await User.findByIdAndUpdate(req.user._id, {
+        $push: { postIds: post._id },
+      });
+
       res.status(201).send(post);
     } catch (error) {
       console.error(error);

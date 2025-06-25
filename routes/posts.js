@@ -6,8 +6,9 @@ const {
   authentication,
   isAuthorOrAdmin,
 } = require("../middlewares/authentication");
+const upload = require("../middlewares/upload");
 
-router.post("/", authentication, PostController.create);
+router.post("/", authentication, upload.single("image"), PostController.create);
 router.get("/", PostController.getAll);
 router.get("/id/:id", PostController.getById);
 router.get("/name/:name", PostController.getByName);
@@ -15,6 +16,7 @@ router.delete(
   "/:id",
   authentication,
   isAuthorOrAdmin(Post, "userId", "id"),
+  upload.single("image"),
   PostController.delete
 );
 router.put(
