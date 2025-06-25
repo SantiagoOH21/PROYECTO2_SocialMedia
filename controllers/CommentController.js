@@ -54,6 +54,27 @@ const CommentController = {
     }
   },
 
+  //UPDATE
+  async update(req, res) {
+    try {
+      const commentId = req.params.id;
+      const comment = await Comment.findById(commentId);
+      if (!comment)
+        return res.status(404).send({ message: "Comentario no encontrado" });
+
+      await Comment.findByIdAndUpdate(commentId, req.body, {
+        new: true,
+      });
+
+      res.send({ message: "Comentario actualizado correctamente", comment });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: "Ha habido un problema al intentar actualizar el post",
+      });
+    }
+  },
+
   //DELETE
   async delete(req, res) {
     try {
@@ -62,14 +83,6 @@ const CommentController = {
 
       if (!comment)
         return res.status(404).send({ message: "Comentario no encontrado" });
-      if (
-        !req.user.isAdmin &&
-        comment.userId.toString() !== req.user._id.toString()
-      ) {
-        return res
-          .status(403)
-          .send({ message: "No tienes permisos para borrar este comentario" });
-      }
 
       await Comment.findByIdAndDelete(commentId);
       await Post.findByIdAndUpdate(comment.postId, {

@@ -21,20 +21,34 @@ const authentication = async (req, res, next) => {
   }
 };
 
-const isAuthor = async (req, res, next) => {
-  try {
-    const post = await Post.findById(req.params._id);
-    if (post.userId.toString() !== req.user._id.toString()) {
-      return res.status(403).send({ message: "Este post no es tuyo" });
+const isAuthorOrAdmin = (Model, userField = "userId", paramId = "id") => {
+  return async (req, res, next) => {
+    try {
+      const resourceId = req.params[paramId];
+      const resource = await Model.findById(resourceId);
+      if (!resource)
+        return res
+          .status(404)
+          .send({ message: "Recurso no encontrado con esa id" });
+
+      const isAuthor =
+        resource[userField].toString() === req.user.id.toString();
+      const isAdmin = ["admin", "superadmin"].includes(req.user.role);
+
+      if (!isAuthor && !isAdmin) {
+        return res
+          .status(403)
+          .send({ message: "No tienes permiso para realizar esta acción" });
+      }
+      next();
+    } catch (error) {
+      console.error(error);
+      return res.status(500).send({
+        error,
+        message: "Error al verificar los permisos del recurso",
+      });
     }
-    next();
-  } catch (error) {
-    console.error(error);
-    return res.status(500).send({
-      error,
-      message: "Ha habido un problema al comprobar la autoría del pedido",
-    });
-  }
+  };
 };
 
-module.exports = { authentication, isAuthor };
+module.exports = { authentication, isAuthorOrAdmin };
