@@ -17,6 +17,7 @@ const CommentSchema = new mongoose.Schema(
       type: String,
       required: [true, "Por favor escribe algo en el contenido del comentario"],
     },
+    image: { type: String },
     likes: [
       {
         type: ObjectId,

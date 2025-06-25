@@ -22,6 +22,7 @@ const CommentController = {
         content,
         postId,
         userId: req.user._id,
+        image: req.file ? req.file.filename : null,
       });
 
       await Post.findByIdAndUpdate(postId, {
@@ -70,7 +71,7 @@ const CommentController = {
     } catch (error) {
       console.error(error);
       res.status(500).send({
-        message: "Ha habido un problema al intentar actualizar el post",
+        message: "Ha habido un problema al intentar actualizar el comentario",
       });
     }
   },

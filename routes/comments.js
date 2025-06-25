@@ -6,13 +6,20 @@ const {
   authentication,
   isAuthorOrAdmin,
 } = require("../middlewares/authentication");
+const upload = require("../middlewares/upload");
 
-router.post("/", authentication, CommentController.create);
+router.post(
+  "/",
+  authentication,
+  upload.single("image"),
+  CommentController.create
+);
 router.get("/", CommentController.getAll);
 router.put(
   "/:id",
   authentication,
   isAuthorOrAdmin(Comment, "userId", "id"),
+  upload.single("image"),
   CommentController.update
 );
 router.delete(
