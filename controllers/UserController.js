@@ -274,5 +274,47 @@ const UserController = {
         .send({ message: "Error al obtener el perfil del usuario", error });
     }
   },
+
+  //GET BY NAME
+  async getByName(req, res) {
+    try {
+      const users = await User.find({
+        $text: {
+          $search: req.params.name,
+        },
+      });
+
+      if (users.length === 0)
+        return res
+          .status(404)
+          .send({ message: "No se encontraron usuarios con ese nombre" });
+
+      res.status(200).send(users);
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({ message: "Ha habido un problema con ese usuario", error });
+    }
+  },
+
+  //GET BY ID
+  async getById(req, res) {
+    try {
+      const user = await User.findById(req.params.id);
+
+      if (!user)
+        return res
+          .status(404)
+          .send({ message: "Usuario no encontrado con esa id" });
+
+      res.status(200).send(user);
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({ message: "Ha habido un problema con ese usuario", error });
+    }
+  },
 };
 module.exports = UserController;

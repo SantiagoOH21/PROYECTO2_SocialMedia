@@ -124,20 +124,6 @@ const PostController = {
     }
   },
 
-  //DELETE
-  async delete(req, res) {
-    try {
-      const post = await Post.findByIdAndDelete(req.params.id);
-      if (!post) return res.status(404).send({ message: "Post no encontrado" });
-      res.status(200).send({ message: "Post borrado con éxito" });
-    } catch (error) {
-      console.error(error);
-      res.status(500).send({
-        message: "Ha habido un problema al intentar borrar el post",
-      });
-    }
-  },
-
   //UPDATE
   async update(req, res) {
     try {
@@ -155,6 +141,20 @@ const PostController = {
       console.error(error);
       res.status(500).send({
         message: "Ha habido un problema al intentar actualizar el post",
+      });
+    }
+  },
+
+  //DELETE
+  async delete(req, res) {
+    try {
+      const post = await Post.findByIdAndDelete(req.params.id);
+      if (!post) return res.status(404).send({ message: "Post no encontrado" });
+      res.status(200).send({ message: "Post borrado con éxito" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({
+        message: "Ha habido un problema al intentar borrar el post",
       });
     }
   },
