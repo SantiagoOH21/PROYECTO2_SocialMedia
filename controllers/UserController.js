@@ -134,5 +134,114 @@ const UserController = {
       });
     }
   },
+
+  //FOLLOW
+  async follow(req, res) {
+    try {
+      //FOLLOWER
+      const userId = req.user._id;
+      //FOLLOWING
+      const targetId = req.params.id;
+
+      if (userId.toString() === targetId) {
+        return res
+          .status(400)
+          .send({ message: "No puedes seguirte a ti mismo" });
+      }
+
+      const user = await User.findById(userId);
+      const targetUser = await User.findById(targetId);
+
+      if (!targetUser) {
+        return res
+          .status(404)
+          .send({ message: "Usuario a seguir no encontrado" });
+      }
+
+      if (user.following.includes(targetId)) {
+        return res.status(400).send({ message: "Ya sigues a este usuario" });
+      }
+
+      user.following.push(targetId);
+      targetUser.followers.push(userId);
+
+      await user.save();
+      await targetUser.save();
+
+      res.status(200).send({ message: "Has seguido al usuario correctamente" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: "Error al intentar seguir al usuario" });
+    }
+  },
+
+  //UNFOLLOW
+  async unfollow(req, res) {
+    try {
+      const userId = req.user._id;
+      const targetId = req.params.id;
+
+      if (userId.toString() === targetId) {
+        return res
+          .status(400)
+          .send({ message: "No puedes dejar de seguirte a ti mismo" });
+      }
+
+      const user = await User.findById(userId);
+      const targetUser = await User.findById(targetId);
+
+      if (!targetUser) {
+        return res.status(404).send({ message: "Usuario no encontrado" });
+      }
+      user.following = user.following.filter(
+        (id) => id.toString() !== targetId
+      );
+      targetUser.followers = targetUser.followers.filter(
+        (id) => id.toString() !== userId.toString()
+      );
+
+      await user.save();
+      await targetUser.save();
+
+      res.status(200).send({ message: "Has dejado de seguir al usuario" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).send({ message: "Error al dejar de seguir al usuario" });
+    }
+  },
+
+  //GET FOLLOWERS
+  async getFollowers(req, res) {
+    try {
+      const user = await User.findById(req.params.id).populate(
+        "followers",
+        "name avatar"
+      );
+      if (!user) {
+        return res.status(404).send({ message: "Usuario no encontrado" });
+      }
+      res.send({ followers: user.followers });
+    } catch (error) {
+      res.status(500).send({ message: "Error al obtener los seguidores" });
+    }
+  },
+
+  //GET FOLLOWING
+  async getFollowing(req, res) {
+    try {
+      const user = await User.findById(req.params.id).populate(
+        "following",
+        "name avatar"
+      );
+      if (!user) {
+        return res.status(404).send({ message: "Usuario no encontrado" });
+      }
+      res.send({ following: user.following });
+    } catch (error) {
+      res
+        .status(500)
+        .send({ message: "Error al obtener la lista de seguidos" });
+    }
+  },
 };
 module.exports = UserController;

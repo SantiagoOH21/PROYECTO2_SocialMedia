@@ -24,5 +24,9 @@ router.delete(
   isAuthorOrAdmin(User, "_id", "id"),
   UserController.delete
 );
+router.put("/follow/:id", authentication, UserController.follow);
+router.put("/unfollow/:id", authentication, UserController.unfollow);
+router.get("/followers/:id", UserController.getFollowers);
+router.get("/following/:id", UserController.getFollowing);
 
 module.exports = router;

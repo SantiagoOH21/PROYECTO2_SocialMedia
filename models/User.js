@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const ObjectId = mongoose.SchemaTypes.ObjectId;
 
 const UserSchema = new mongoose.Schema(
   {
@@ -30,6 +31,8 @@ const UserSchema = new mongoose.Schema(
     },
     role: String,
     avatar: { type: String },
+    followers: [{ type: ObjectId, ref: "User" }],
+    following: [{ type: ObjectId, ref: "User" }],
     tokens: [],
   },
   { timestamps: true }
