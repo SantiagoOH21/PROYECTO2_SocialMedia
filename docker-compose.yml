@@ -1,7 +1,6 @@
-version: "3.6"
 services:
   api:
-    container_name: api
+    container_name: api_SM
     build:
       context: ./
       dockerfile: Dockerfile
