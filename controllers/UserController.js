@@ -32,6 +32,7 @@ const UserController = {
         ...req.body,
         role: "user",
         password: passwordEncrypted,
+        avatar: req.file ? req.file.filename : null,
       });
       res
         .status(201)
@@ -98,7 +99,6 @@ const UserController = {
   },
 
   //UPDATE
-
   async update(req, res) {
     try {
       const user = await User.findByIdAndUpdate(req.params.id, req.body, {
