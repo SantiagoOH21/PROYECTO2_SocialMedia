@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Post = require("../models/Post");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const bcrypt = require("bcryptjs");
@@ -241,6 +242,36 @@ const UserController = {
       res
         .status(500)
         .send({ message: "Error al obtener la lista de seguidos" });
+    }
+  },
+
+  //GET MY INFO
+  async getMe(req, res) {
+    try {
+      const user = await User.findById(req.user._id)
+        .select("-password")
+        .populate("followers", "name avatar")
+        .populate("following", "name avatar");
+
+      if (!user) {
+        return res.status(404).send({ message: "Usuario no encontrado" });
+      }
+
+      const posts = await Post.find({ userId: user._id }).sort({
+        createdAt: -1,
+      });
+
+      res.status(200).send({
+        user,
+        posts,
+        followersCount: user.followers.length,
+        followingCount: user.following.length,
+      });
+    } catch (error) {
+      console.error(error);
+      res
+        .status(500)
+        .send({ message: "Error al obtener el perfil del usuario", error });
     }
   },
 };
