@@ -113,29 +113,29 @@ npm start
 
 ### 📝 Posts (`/posts`)
 
-| Método   | Endpoint      | Descripción                                                                     | Autenticación | Archivos            | Validaciones                                      |
-| :------- | :------------ | :------------------------------------------------------------------------------ | :------------ | :------------------ | :------------------------------------------------ |
-| `POST`   | `/`           | Crea un nuevo post.                                                             | Sí            | `imagen` (opcional) | Todos los campos son requeridos (excepto imagen). |
-| `GET`    | `/`           | Obtiene todos los posts (con usuario y comentarios), con paginación (10 en 10). | No            | No                  |                                                   |
-| `GET`    | `/id/:id`     | Obtiene un post por su ID.                                                      | No            | No                  |                                                   |
-| `GET`    | `/name/:name` | Busca posts por nombre.                                                         | No            | No                  |                                                   |
-| `DELETE` | `/:id`        | Elimina un post. **Requiere ser el autor o admin.**                             | Sí            | `imagen` (opcional) |                                                   |
-| `PUT`    | `/:id`        | Actualiza un post existente. **Requiere ser el autor.**                         | Sí            | No                  |                                                   |
-| `PUT`    | `/likes/:id`  | Da "Like" a un post.                                                            | Sí            | No                  |                                                   |
-| `PUT`    | `/unlike/:id` | Quita un "Like" de un post.                                                     | Sí            | No                  |                                                   |
+| Método   | Endpoint      | Descripción                                                                     | Autenticación | Archivos           | Validaciones                                      |
+| :------- | :------------ | :------------------------------------------------------------------------------ | :------------ | :----------------- | :------------------------------------------------ |
+| `POST`   | `/`           | Crea un nuevo post.                                                             | Sí            | `image` (opcional) | Todos los campos son requeridos (excepto imagen). |
+| `GET`    | `/`           | Obtiene todos los posts (con usuario y comentarios), con paginación (10 en 10). | No            | No                 |                                                   |
+| `GET`    | `/id/:id`     | Obtiene un post por su ID.                                                      | No            | No                 |                                                   |
+| `GET`    | `/name/:name` | Busca posts por nombre.                                                         | No            | No                 |                                                   |
+| `DELETE` | `/:id`        | Elimina un post. **Requiere ser el autor o admin.**                             | Sí            | `image` (opcional) |                                                   |
+| `PUT`    | `/:id`        | Actualiza un post existente. **Requiere ser el autor.**                         | Sí            | No                 |                                                   |
+| `PUT`    | `/likes/:id`  | Da "Like" a un post.                                                            | Sí            | No                 |                                                   |
+| `PUT`    | `/unlike/:id` | Quita un "Like" de un post.                                                     | Sí            | No                 |                                                   |
 
 ---
 
 ### 💬 Comentarios (`/comments`)
 
-| Método   | Endpoint       | Descripción                                         | Autenticación | Archivos            |
-| :------- | :------------- | :-------------------------------------------------- | :------------ | :------------------ |
-| `POST`   | `/`            | Crea un comentario en un post específico.           | Sí            | `imagen` (opcional) |
-| `GET`    | `/`            | Obtiene todos los comentarios.                      | No            | No                  |
-| `PUT`    | `/:id`         | Actualiza un comentario. **Requiere ser el autor.** | Sí            | `imagen` (opcional) |
-| `DELETE` | `/:id`         | Elimina un comentario. **Requiere ser el autor.**   | Sí            | No                  |
-| `PUT`    | `/likes/:_id`  | Da "Like" a un comentario.                          | Sí            | No                  |
-| `PUT`    | `/unlike/:_id` | Quita un "Like" de un comentario.                   | Sí            | No                  |
+| Método   | Endpoint       | Descripción                                         | Autenticación | Archivos           |
+| :------- | :------------- | :-------------------------------------------------- | :------------ | :----------------- |
+| `POST`   | `/`            | Crea un comentario en un post específico.           | Sí            | `image` (opcional) |
+| `GET`    | `/`            | Obtiene todos los comentarios.                      | No            | No                 |
+| `PUT`    | `/:id`         | Actualiza un comentario. **Requiere ser el autor.** | Sí            | `image` (opcional) |
+| `DELETE` | `/:id`         | Elimina un comentario. **Requiere ser el autor.**   | Sí            | No                 |
+| `PUT`    | `/likes/:_id`  | Da "Like" a un comentario.                          | Sí            | No                 |
+| `PUT`    | `/unlike/:_id` | Quita un "Like" de un comentario.                   | Sí            | No                 |
 
 ---
 
