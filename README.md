@@ -183,4 +183,4 @@ proyecto2_socialmedia/
 
 ## 🧑‍💻 Autor
 
-- Santiago [@SantiagoOH21](https://github.com/SantiagoOH21)
+- Santiago Orozco Hernández [@SantiagoOH21](https://github.com/SantiagoOH21)
