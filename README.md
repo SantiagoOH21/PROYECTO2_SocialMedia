@@ -13,6 +13,8 @@ Este proyecto es una API para una red social, construida con **Node.js**, **Expr
 - [🖼️ Subida de Imágenes](#️-subida-de-imágenes)
 - [📄 Documentación de la API](#-documentación-de-la-api)
 - [📁 Estructura del Proyecto](#-estructura-del-proyecto)
+- [🐳 Contenedores Docker](#-contenedores-docker)
+- [🚀 Despliegue en Render](#-despliegue-en-render)
 - [🧑‍💻 Autor](#-autor)
 
 ---
@@ -29,6 +31,8 @@ Este proyecto es una API para una red social, construida con **Node.js**, **Expr
 - **Dotenv**: Para la gestión de variables de entorno.
 - **Swagger UI Express**: Para generar y servir la documentación de la API.
 - **Postman**: Herramienta utilizada para probar y verificar los endpoints de la API.
+- **Docker**: Plataforma para desarrollar, enviar y ejecutar aplicaciones en contenedores.
+- **Docker Compose**: Herramienta para definir y ejecutar aplicaciones multi-contenedor Docker.
 - **Nodemon** (solo en desarrollo): Herramienta para reiniciar el servidor automáticamente en cada cambio.
 
 ---
@@ -180,6 +184,57 @@ proyecto2_socialmedia/
 ├── package.json
 └── README.md
 ```
+
+---
+
+## 🐳 Contenedores Docker
+
+Este proyecto está preparado para ejecutarse en contenedores Docker utilizando `Docker` y `Docker Compose`, lo cual facilita su despliegue y portabilidad.
+
+### 🧱 Archivos relevantes
+
+- `Dockerfile`: Define la imagen del servidor Node.js.
+- `docker-compose.yml`: Orquesta la ejecución de la API junto a un contenedor MongoDB.
+
+### ▶️ Cómo levantar el proyecto con Docker
+
+```bash
+# Construir los contenedores
+docker compose build
+```
+
+```bash
+# Levanta los contenedores en segundo plano
+docker compose up
+```
+
+```bash
+# Para detener los contenedores
+docker compose down
+```
+
+> Asegúrate de tener Docker y Docker Compose instalados en tu sistema antes de ejecutar estos comandos.
+
+## 🚀 Despliegue en Render
+
+La API ha sido desplegada utilizando [Render](https://render.com/), una plataforma de hosting en la nube para aplicaciones web y APIs.
+
+### 🌍 Enlace a producción
+
+🔗 [https://proyecto2-socialmedia.onrender.com](https://proyecto2-socialmedia.onrender.com)
+
+### 📌 Configuración usada en Render
+
+- **Tipo de servicio:** Web Service
+- **Entorno de ejecución:** Node.js
+- **Comando de build:** `npm install`
+- **Comando de inicio:** `npm start`
+- **Variables de entorno:**
+  - `MONGODB_URI`: URI de tu base de datos (por ejemplo, en MongoDB Atlas)
+  - `JWT_SECRET`: Clave secreta para firmar los tokens JWT
+  - `PORT`: Render lo gestiona automáticamente (no necesitas definirlo)
+
+> Render proporciona automáticamente HTTPS, reinicio automático del servicio, despliegue continuo desde GitHub y monitoreo básico del estado del servidor.
 
 ## 🧑‍💻 Autor
 
