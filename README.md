@@ -168,21 +168,28 @@ Configurada con `swagger-ui-express` para visualizar de forma gráfica todos los
 ## 📁 Estructura del Proyecto
 
 ```
+
 proyecto2_socialmedia/
 │
 ├── src/
-│ ├── config/ # Configuración de base de datos
-│ ├── controllers/ # Lógica de negocio (User, Post, Comment)
-│ ├── docs/ # Documentación Swagger
-│ ├── middlewares/ # Middlewares de autenticación, validación, subida de archivos
-│ ├── models/ # Modelos de datos (Mongoose)
-│ ├── routes/ # Endpoints de la API
-│ └── index.js # Archivo principal del servidor
+│ ├── config/               # Configuración de base de datos
+│ ├── controllers/          # Lógica de negocio (User, Post, Comment)
+│ ├── docs/                 # Documentación Swagger
+│ ├── middlewares/          # Middlewares de autenticación, validación, subida de archivos
+│ ├── models/               # Modelos de datos (Mongoose)
+│ ├── routes/               # Endpoints de la API
+│ └── index.js              # Archivo principal del servidor
 │
-├── uploads/ # Archivos subidos por los usuarios
-├── .env # Variables de entorno (no incluido en Git)
-├── package.json
-└── README.md
+├── uploads/                # Archivos subidos por los usuarios
+├── .env                    # Variables de entorno (no incluido en Git)
+├── .env.example            # Ejemplo de configuración de variables de entorno necesarias para el proyecto
+├── .gitignore              # Archivos y carpetas que deben ser ignorados por Git
+├── Dockerfile              # Instrucciones para construir la imagen Docker del servidor
+├── docker-compose.yml      # Orquestación de servicios Docker (API, base de datos, etc.)
+├── package-lock.json       # Registro exacto de versiones de dependencias instaladas
+├── package.json            # Información del proyecto y listado de dependencias
+└── README.md               # Documentación principal del proyecto (instalación, uso, etc.)
+
 ```
 
 ---
